@@ -1,0 +1,118 @@
+html,body{
+    width: 100%;
+    height: 100%;
+}
+body{
+    background-color: #f1f3f5;
+   /* background-color: #0f1421;*/
+}
+
+.rootbg{
+    background-color: #f1f3f5;
+}
+
+/*bootstrap5美化*/
+.form-control:focus,.form-select:focus,.page-link:focus,.btn:focus,.navbar-toggler:focus{
+    box-shadow:none!important;
+    }
+
+
+.accordion-button:focus,.accordion-button:not(.collapse){
+        border-color: white;
+        background-color: white;
+        box-shadow:none !important;
+    }
+
+.accordion-button:focus,.accordion-button:not(.collapse){
+        border-color: white;
+        background-color: white;
+        box-shadow:none !important;
+    }
+
+    /*卡片美化*/
+/*.card,.card-header,.card-body,.card-footer{
+        background-color: white;
+    }*/
+    
+
+.dropdown-item:active{
+    background-color: #e9ecef;
+    color: #1e2125;
+}
+
+.form-check-input:focus{
+    /*outline: none!important;*/
+    box-shadow: none!important;
+}
+
+/*自定义颜色背景等样式*/
+.tip{
+    color: #495050;
+    font-size: 16px;
+    line-height: 2.4em;
+}
+
+.grayext{
+    color: #495050;
+}
+
+.iosext{
+    color: #333333;
+}
+
+.qmuitext{
+    color: #1b88ee;
+}
+
+.iosred{
+    color: #ff3300;
+}
+.iosblue{
+    color: #007AFF;
+}
+
+.lightwhite{
+    background-color: #f1f3f5;
+}
+
+.deepwhite{
+    background-color: #ededed;
+}
+
+.dividerline{
+    background-color: #f6f6f6;
+}
+
+.hrLine{
+    width: 24%;
+    color: gray;
+    vertical-align: middle;display: inline-block;
+}
+
+/*在Chrome下移除input[number]的上下箭头*/
+.no-number::-webkit-outer-spin-button,
+.no-number::-webkit-inner-spin-button {
+  margin: 0;
+  -webkit-appearance: none !important;
+}
+ 
+.no-number input[type="number"]::-webkit-outer-spin-button,
+.no-number input[type="number"]::-webkit-inner-spin-button {
+  margin: 0;
+  -webkit-appearance: none !important;
+}
+ 
+/*在firefox下移除input[number]的上下箭头*/
+.no-number {
+  -moz-appearance: textfield;
+}
+ 
+.no-number input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+
+.naturep{
+    text-align: justify;
+    text-indent: 2em;
+}

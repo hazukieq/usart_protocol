@@ -1,0 +1,50 @@
+.badpan{
+    background-color: white;
+    border: solid 1px gray;
+    opacity: .8;
+    width: 36px;
+    height: 24px;
+    text-align: center;
+    font-size: 14px;
+}
+.badpaned{
+    width: 36px;
+    height: 24px;
+    opacity:.8;
+    background-color: #1b88ee;
+    color: white;
+    border: 1px solid white;
+    font-weight: bold;
+    text-align: center;
+}
+
+label,h4,h5,span,div,button{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.modalCope{
+    display: block;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 1023;
+    background-color: red;
+    top:0;
+    left:0;
+}
+
+.modalBg{
+    display: block;
+    position: fixed;
+    z-index: 1024;
+    width:500px;
+    min-height:300px;
+    top:50%;
+    left:50%;
+    margin:-150px 0 0 -250px;
+    background: yellow;
+    padding: 15px;
+    border-radius: 5px;
+}
