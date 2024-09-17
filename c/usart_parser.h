@@ -1,5 +1,10 @@
 #ifndef __USART_PARSER_H_
 #define __USART_PARSER_H_
+//定义是否为测试环境
+#ifndef DEBUG
+#define DEBUG 0
+#endif
+
 
 /**
  * 头无效字段 2byte
@@ -12,7 +17,7 @@
  * 命令数据字段 1 byte
  * 合计 8bytes
  **/
-#define HEA_DL 2
+#define HEAD_L 2
 #define END_L 1
 //存储数据长度的字段长度
 #define LEN_L 2
@@ -21,16 +26,17 @@
 // 数据长度
 #define DATA_LEN 256
 // Packet中数据段之前的总长度: head[2]+len[2]+cmd[1]=5
-#define PACKET_HEADER_LEN HEA_DL+LEN_L+CMD_L
+#define PACKET_HEADER_LEN HEAD_L+LEN_L+CMD_L
+//#define PACKET_HEADER_DATA_LEN PACKET_HEADER_LEN+DATA_LEN
 // 总长度
-#define Unprotol_LEN DATA_LEN+HEA_DL+LEN_L+CMD_L+CRC16_L+END_L
+#define Unprotol_LEN DATA_LEN+HEAD_L+LEN_L+CMD_L+CRC16_L+END_L
 
 /* 数据帧创建
  * 帧头2 帧长1 命令1(可选) 数据(可变) CRC16校验字节2 帧尾1
  * 总长度 Unprotol_LEN 字节
  */
 typedef struct {
-		unsigned char head[HEA_DL];
+		unsigned char head[HEAD_L];
 		unsigned char len[LEN_L];
 		unsigned char cmd;
 		unsigned char data[DATA_LEN];

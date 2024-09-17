@@ -1,6 +1,4 @@
 #include "usart_parser.h"
-//定义是否为测试环境
-#define DEBUG 1
 
 #if DEBUG
 #include <stdio.h>
@@ -12,7 +10,13 @@
 
 static unsigned char step=0;
 static unsigned short count=0,slen=0;
-static Unprotocol rec_pack={0},package={0};
+#if DEBUG
+static Unprotocol rec_pack={0};
+static Unprotocol package={0};
+#else
+static Unprotocol rec_pack={0};
+#define package rec_pack
+#endif
 static Num num={0};
 
 static unsigned short crc16=0;//2bytes,which is 16its
@@ -63,17 +67,27 @@ void Send_dataframe(unsigned char cmd,
 		printf("Num.slen[%02x%02x]=Num.len[%d]\n",num.slen[0],num.slen[1],num.len);
 #endif
 
-		for(int i=0;i<slen;i++)
+#if DEBUG
+		int i,j=0;
+		for(i=0;i<slen;i++)
 			package.packet.data[i]=data[i];
 		
-		for(int i=slen;i<DATA_LEN;i++) 
+		for(j=slen;j<DATA_LEN;j++) 
+			package.packet.data[j]=0x0;
+#else
+		int i=0;
+		for(i=0;i<DATA_LEN;i++)
 			package.packet.data[i]=0x0;
+		for(i=0;i<slen;i++)
+			package.packet.data[i]=data[i];
+#endif
 	}
 	
-	unsigned short crc_code=_crc16_create(data,slen);
-	package.packet.crc16[0]=crc_code>>8;//高位
-	package.packet.crc16[1]=crc_code&0xff;//低位
+	crc16=_crc16_create(data,slen);
+	package.packet.crc16[0]=crc16>>8;//高位
+	package.packet.crc16[1]=crc16&0xff;//低位
 	package.packet.end=MSG_END;
+	crc16=0x0;
 	__data_send(package.buf,Unprotol_LEN);
 }
 
@@ -173,17 +187,8 @@ void data_send(unsigned char *buf, unsigned short len){
 
 int main(void){
         unsigned char buf[]="hello,world! this is a little wired thing for me.";
-	unsigned short val=_crc16_create(buf,_strlen(buf));
 	Send_dataframe(0x01,buf,&data_send);
 	return 0;
 }
-
 #else
-void process_packet(Packet* packet){
-
-}
-
-void data_send(unsigned char *buf, unsigned short len){
-
-}
 #endif
