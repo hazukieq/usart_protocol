@@ -2,9 +2,11 @@
 #define __USART_PARSER_H_
 //定义是否为测试环境
 #ifndef DEBUG
-#define DEBUG 0
+#define DEBUG 1
 #endif
-
+#ifndef  TEST
+#define TEST 0
+#endif
 
 /**
  * 头无效字段 2byte

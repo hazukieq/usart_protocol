@@ -42,7 +42,7 @@ static unsigned short _crc16_create(unsigned char* data,unsigned short len){
 	    }
     }
 #if DEBUG
-    printf("\033[32m[%s]\033[0m ->%d with %d\n",data,CRC16,len);
+    printf("\033[32m[%s]\033[0m ->%d<%02x> with %d\n",data,CRC16,CRC16,len);
 #endif
     return CRC16;
 }
@@ -82,12 +82,12 @@ void Send_dataframe(unsigned char cmd,
 			package.packet.data[i]=data[i];
 #endif
 	}
-	
+
+	crc16=0;
 	crc16=_crc16_create(data,slen);
 	package.packet.crc16[0]=crc16>>8;//高位
 	package.packet.crc16[1]=crc16&0xff;//低位
 	package.packet.end=MSG_END;
-	crc16=0x0;
 	__data_send(package.buf,Unprotol_LEN);
 }
 
@@ -135,17 +135,27 @@ void Rec_dataframe(unsigned char dat,void (*__process_fn)(Packet* packet))
 			rec_pack.buf[count++]=dat;
 			step++;
 			crc16=dat;
+#if DEBUG
+			printf("dat=<%02x>,crc16[0]=%02x\n",dat,crc16);
+#endif
 			break;
 		case 7:
 			crc16=(crc16<<8)|dat;
+#if DEBUG
+			printf("dat=<%02x>,crc16=%02x\n",dat,crc16);
+#endif 
 			n_crc=_crc16_create((unsigned char*)(rec_pack.buf+PACKET_HEADER_LEN),num.len);
 			#if DEBUG
-			printf("old_crc16=%d,n_crc16=%d with %d\n",crc16,n_crc,num.len);
+			printf("old_crc16=%d,new_crc16=%d with %d\n",crc16,n_crc,num.len);
 			#endif
 			if(crc16==n_crc)
 				step++;
-			else if(dat==MSG_HEAD_2)
+			else if(dat==MSG_HEAD_2){
+#if DEBUG
+				printf("sorry,old_crc16 is not equal to new_crc16\n");
+#endif
 				step=1;
+			}
 			else
 				step=0;
 			break;
@@ -180,15 +190,16 @@ void data_send(unsigned char *buf, unsigned short len){
 		Rec_dataframe(buf[i], &process_packet);
 
 	for(int i=0;i<len;i++){
-		printf("x%02x",buf[i]);
+		printf("0x%02x",buf[i]);
 	}
 	printf("\n");
 }
-
+#if TEST
 int main(void){
-        unsigned char buf[]="hello,world! this is a little wired thing for me.";
+        unsigned char buf[]="hello,world!";
 	Send_dataframe(0x01,buf,&data_send);
 	return 0;
 }
+#endif
 #else
 #endif
